@@ -3,9 +3,9 @@ module Rack
     module Recaptcha
       class Middleware
         def initialize(app)
-          @default_response = Rack::Attack.throttled_response
+          @default_response = Rack::Attack.throttled_responder
           @rack_attack = Rack::Attack.new(app).tap do |attack|
-            attack.class.throttled_response = lambda do |env|
+            attack.class.throttled_responder = lambda do |env|
               if env["rack.attack.match_type"] == :recaptcha
                 env["rack.attack.use_recaptcha"] = true
                 app
